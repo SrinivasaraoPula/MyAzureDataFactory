@@ -1,0 +1,20 @@
+{
+	"name": "ds_samplesetofobjectsjson",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_blob_json",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Samplearrayofobjects",
+				"container": "output"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

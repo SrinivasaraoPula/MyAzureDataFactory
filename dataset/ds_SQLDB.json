@@ -1,0 +1,27 @@
+{
+	"name": "ds_SQLDB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sqlempDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "EmpId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "EmpName",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "TotalSaleAsia"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,36 @@
+{
+	"name": "powerquery2",
+	"properties": {
+		"type": "WranglingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "ds_sourcetable",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ds_sourcetable",
+					"dataset": {
+						"referenceName": "ds_sourcetable",
+						"type": "DatasetReference"
+					}
+				},
+				{
+					"name": "ds_empcsvfile_blb",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> ds_empcsvfile_blb",
+					"dataset": {
+						"referenceName": "ds_empcsvfile_blb",
+						"type": "DatasetReference"
+					}
+				},
+				{
+					"name": "ds_dept_data",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> ds_dept_data",
+					"dataset": {
+						"referenceName": "ds_dept_data",
+						"type": "DatasetReference"
+					}
+				}
+			],
+			"script": "section Section1;\r\nshared ds_sourcetable = let AdfDoc = Sql.Database(\"srinuserver.database.windows.net\", \"srinuDB\", [CreateNavigationProperties = false]), InputTable = AdfDoc{[Schema=\"dbo\",Item=\"source\"]}[Data] in InputTable;\r\nshared ds_empcsvfile_blb = let AdfDoc = AzureStorage.BlobContents(\"https://srinustg.blob.core.windows.net/input/Test_emp.txt\"),Csv = Csv.Document(AdfDoc, [Delimiter = \",\", Encoding = TextEncoding.Utf8, QuoteStyle = QuoteStyle.Csv]), PromotedHeaders = Table.PromoteHeaders(Csv, [PromoteAllScalars = true]),\r\n  #\"Merged queries\" = Table.NestedJoin(PromotedHeaders, {\"EmpId\"}, ds_dept_data, {\"Column1\"}, \"ds_dept_data\", JoinKind.Inner),\r\n  #\"Expanded ds_dept_data\" = Table.ExpandTableColumn(#\"Merged queries\", \"ds_dept_data\", {\"Column1\", \"Column2\"}, {\"Column1\", \"Column2\"}),\r\n  #\"Removed columns\" = Table.RemoveColumns(#\"Expanded ds_dept_data\", {\"Column1\"}) in  #\"Removed columns\";\r\nshared ds_dept_data = let AdfDoc = AzureStorage.BlobContents(\"https://srinustg.blob.core.windows.net/demo/input/Department.csv\"),Csv = Csv.Document(AdfDoc, [Delimiter = \",\", Encoding = TextEncoding.Utf8, QuoteStyle = QuoteStyle.Csv]) in Csv;\r\nshared UserQuery = let Source = #\"ds_sourcetable\" in Source;\r\n",
+			"documentLocale": "en-us"
+		}
+	}
+}

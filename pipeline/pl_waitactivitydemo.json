@@ -1,0 +1,50 @@
+{
+	"name": "pl_waitactivitydemo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Wait for 10 sec",
+				"type": "Wait",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": {
+						"value": "@pipeline().parameters.time",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Wait for 10 sec",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 1
+				}
+			}
+		],
+		"parameters": {
+			"time": {
+				"type": "int",
+				"defaultValue": 10
+			}
+		},
+		"variables": {
+			"waittime": {
+				"type": "String",
+				"defaultValue": "6"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-11-25T04:57:54Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

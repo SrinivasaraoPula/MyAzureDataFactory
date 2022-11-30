@@ -1,0 +1,38 @@
+{
+	"name": "pl_append variable activitydemo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Append variable1",
+				"type": "AppendVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Listoffiles",
+					"value": {
+						"value": "@pipeline().parameters.filename",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"filename": {
+				"type": "string",
+				"defaultValue": "TotalSales"
+			}
+		},
+		"variables": {
+			"Listoffiles": {
+				"type": "Array",
+				"defaultValue": [
+					"Salesindia",
+					"SalesUk"
+				]
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-11-28T06:16:01Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,51 @@
+{
+	"name": "Df_Skip heading rows in file",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Ds_salefile",
+						"type": "DatasetReference"
+					},
+					"name": "totalsalefiletoskiptheheadingrows"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ls_SqlDBwithdestination",
+						"type": "DatasetReference"
+					},
+					"name": "Azuresaletable"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          {This is monthly file created at 01:19:2022} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     skipLines: 2) ~> totalsalefiletoskiptheheadingrows",
+				"totalsalefiletoskiptheheadingrows sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id as integer,",
+				"          name as string,",
+				"          salary as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> Azuresaletable"
+			]
+		}
+	}
+}

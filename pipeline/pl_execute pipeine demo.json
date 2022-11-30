@@ -1,0 +1,29 @@
+{
+	"name": "pl_execute pipeine demo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_copysqltabledatafrom one Db to another DB",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"SourceDBName": "srinuDB",
+						"SourceTabeName": "emp",
+						"DestinationDbName": "test",
+						"DestinationTableName": "emp"
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2022-11-28T11:47:56Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

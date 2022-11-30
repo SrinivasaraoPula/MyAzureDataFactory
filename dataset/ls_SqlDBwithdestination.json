@@ -1,0 +1,32 @@
+{
+	"name": "ls_SqlDBwithdestination",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sqlDBfortabled",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "name",
+				"type": "varchar"
+			},
+			{
+				"name": "salary",
+				"type": "tinyint",
+				"precision": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "TotalSale"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,90 @@
+{
+	"name": "pl_copysqltabledatafrom one Db to another DB",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_p_sqlDB_source",
+						"type": "DatasetReference",
+						"parameters": {
+							"tablenamefromdataset": {
+								"value": "@pipeline().parameters.SourceTabeName",
+								"type": "Expression"
+							},
+							"dbnamefromdataset": {
+								"value": "@pipeline().parameters.SourceDBName",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_p_sqldb_destination",
+						"type": "DatasetReference",
+						"parameters": {
+							"tablenamefromdsdest": {
+								"value": "@pipeline().parameters.DestinationTableName",
+								"type": "Expression"
+							},
+							"dbnamefrodsdest": {
+								"value": "@pipeline().parameters.DestinationDbName",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"SourceDBName": {
+				"type": "string"
+			},
+			"SourceTabeName": {
+				"type": "string"
+			},
+			"DestinationDbName": {
+				"type": "string"
+			},
+			"DestinationTableName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-11-28T04:24:04Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

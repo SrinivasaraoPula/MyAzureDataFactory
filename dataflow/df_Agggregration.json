@@ -1,0 +1,76 @@
+{
+	"name": "df_Agggregration",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_employee_csvfile",
+						"type": "DatasetReference"
+					},
+					"name": "Employeedata"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_dept",
+						"type": "DatasetReference"
+					},
+					"name": "deptdata"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_output_empcountvbydept",
+						"type": "DatasetReference"
+					},
+					"name": "Totalempcount"
+				}
+			],
+			"transformations": [
+				{
+					"name": "aggregateempcountbydept"
+				},
+				{
+					"name": "empanddeptdata"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Empid as string,",
+				"          Empname as string,",
+				"          Country as string,",
+				"          Department as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> Employeedata",
+				"source(output(",
+				"          DepartmentId as string,",
+				"          DepartmentName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> deptdata",
+				"Employeedata aggregate(groupBy(Department),",
+				"     {Total employees} = count(Empid)) ~> aggregateempcountbydept",
+				"aggregateempcountbydept, deptdata join(Department == DepartmentId,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> empanddeptdata",
+				"empanddeptdata sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['Totalempcountbydept'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          DepartmentName,",
+				"          {Total employees}",
+				"     ),",
+				"     partitionBy('hash', 1)) ~> Totalempcount"
+			]
+		}
+	}
+}

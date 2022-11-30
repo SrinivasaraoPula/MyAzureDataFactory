@@ -1,0 +1,25 @@
+{
+	"name": "eventtriger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pl_copy data activity demo",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/demo/blobs/input/data.txt",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/2fb5e6f5-dc0a-47b4-887c-c8b0656eaca9/resourceGroups/srinu-rg/providers/Microsoft.Storage/storageAccounts/srinustg",
+			"events": [
+				"Microsoft.Storage.BlobCreated",
+				"Microsoft.Storage.BlobDeleted"
+			]
+		}
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"name": "srinupula-ADF",
+	"properties": {
+		"globalConfigurations": {
+			"PipelineBillingEnabled": "false"
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "80f5afa4-4c5b-496d-8822-62b1d553c95a",
+		"tenantId": "0d8ead90-520b-4a6a-8fca-110657c33a56"
+	}
+}

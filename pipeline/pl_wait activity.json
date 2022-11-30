@@ -1,0 +1,28 @@
+{
+	"name": "pl_wait activity",
+	"properties": {
+		"activities": [
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": {
+						"value": "@pipeline().parameters.timeelpise",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"timeelpise": {
+				"type": "int",
+				"defaultValue": 10
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-11-28T14:41:44Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
